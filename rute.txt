@@ -1,0 +1,37 @@
+holograma_app/
+│── README.md
+│── requirements.txt
+│── .gitignore
+│
+├── src/
+│   ├── main.py              # Punto de entrada
+│   │
+│   ├── holograma/           # Módulo del render holográfico
+│   │   ├── __init__.py
+│   │   ├── renderer.py      # Render 3D con Panda3D
+│   │   ├── preview.py       # Vista previa en pantalla principal
+│   │   └── shaders/         # Shaders personalizados
+│   │
+│   ├── gestos/              # Módulo de detección de gestos
+│   │   ├── __init__.py
+│   │   ├── tracker.py       # Detección con OpenCV
+│   │   └── utils.py
+│   │
+│   ├── network/             # Comunicación entre procesos
+│   │   ├── __init__.py
+│   │   ├── server.py        # Servidor TCP/UDP
+│   │   └── client.py        # Cliente para sincronización
+│   │
+│   ├── assets/              # Modelos 3D, texturas, sonidos
+│   │   ├── models/
+│   │   ├── textures/
+│   │   └── sounds/
+│   │
+│   └── utils/               # Herramientas generales
+│       ├── config.py
+│       └── logger.py
+│
+└── tests/                   # Pruebas unitarias
+    ├── test_gestos.py
+    ├── test_renderer.py
+    └── test_network.py

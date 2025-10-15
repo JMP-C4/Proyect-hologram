@@ -1,0 +1,24 @@
+# Manejo de datos
+pandas
+
+# Visión por computadora
+opencv-python
+
+# Detección de manos y gestos
+mediapipe
+
+# Control del mouse/teclado
+pyautogui
+
+# Dependencias que usa pyautogui
+pillow
+pymsgbox
+pygetwindow
+pyrect
+mouseinfo
+
+# Para cálculos numéricos
+numpy
+
+# Framework de Testing
+pytest

@@ -1,0 +1,29 @@
+Resumen de Cambios y Refactorización
+
+1.  **Estructura del Proyecto:**
+    -   Se ha mantenido la estructura de carpetas `components` y `utils` para una mejor organización.
+    -   El código principal de la aplicación se ha movido a `gesture_app.py`.
+    -   El `main.py` original ahora actúa como un simple punto de entrada que lanza la nueva aplicación.
+
+2.  **Clases y Modularidad:**
+    -   **`gesture_app.py`**: Contiene la clase `GestureApp`, que gestiona la ventana principal de Tkinter, el bucle de la aplicación, la captura de la cámara y la orquestación de los demás componentes.
+    -   **`components/hand_tracking.py`**: Se creó la clase `HandTracker` para encapsular toda la lógica relacionada con MediaPipe (inicialización, procesamiento de imágenes y dibujo de landmarks). Esto aísla la detección de gestos del resto de la aplicación.
+    -   **`components/ui_components.py`**: Contiene las clases `ControlPanel` y `LegendPanel`. Estas clases gestionan la creación y el empaquetado de los botones y el texto de la leyenda, respectivamente, haciendo que la interfaz de usuario sea modular.
+
+3.  **Interfaz Gráfica (UI) con Tkinter:**
+    -   Se ha creado una ventana principal con el título "Control de Gestos Holográficos".
+    -   La ventana muestra el feed de la cámara en tiempo real.
+    -   Se ha añadido un panel de control a la derecha con los siguientes botones:
+        -   Iniciar/Detener Detección
+        -   Calibrar
+        -   Acción 1
+        -   Acción 2
+        -   Adicional 1
+        -   Adicional 2
+        -   Salir
+    -   Debajo de los botones, se ha incluido un panel con una leyenda para explicar los gestos disponibles.
+
+4.  **Funcionalidad:**
+    -   El botón "Iniciar/Detener Detección" ahora controla si el procesamiento de MediaPipe se ejecuta en el frame de la cámara.
+    -   Los demás botones están implementados en la interfaz, pero sus comandos están vacíos, listos para que se les asigne funcionalidad en el futuro.
+    -   El cierre de la ventana ahora libera la cámara de forma segura.
