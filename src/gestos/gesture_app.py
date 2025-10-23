@@ -1,85 +1,88 @@
-import tkinter as tk
-from PIL import Image, ImageTk
 import cv2
-import pyautogui
-from .components.hand_tracking import HandTracker
+from PySide6.QtWidgets import QApplication, QWidget, QLabel, QHBoxLayout, QVBoxLayout
+from PySide6.QtGui import QImage, QPixmap
+from PySide6.QtCore import QTimer, Qt, QFile, QTextStream
 from .components.ui_components import ControlPanel, LegendPanel
-from .components.gesture_mapper import GestureMapper
-from .utils.cursor_utils import CursorControl, perform_click
+from .utils.camera_utils import inicializar_camara
 
-class GestureApp:
-    def __init__(self, window, window_title, video_source=0):
-        self.window = window
-        self.window.title(window_title)
-        self.video_source = video_source
 
-        self.cap = cv2.VideoCapture(self.video_source)
-        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+class GestureApp(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Control de Gestos Holográficos")
+        self.resize(1000, 600)
 
-        self.hand_tracker = HandTracker()
-        self.gesture_mapper = GestureMapper()
-        screen_w, screen_h = pyautogui.size()
-        self.cursor_control = CursorControl(screen_w, screen_h, 640, 480)
-
+        # --- Cargar estilos QSS ---
+        self.load_stylesheet("src/gestos/css/main.qss")
+        # --- Estado ---
         self.detection_active = False
 
-        # Main frame
-        main_frame = tk.Frame(window)
-        main_frame.pack(fill='both', expand=True)
+        # --- Cámara ---
+        self.cap = inicializar_camara()
 
-        # Video Canvas
-        self.canvas = tk.Canvas(main_frame, width=640, height=480)
-        self.canvas.pack(side='left', fill='both', expand=True)
+        # --- Elementos UI ---
+        self.video_label = QLabel("Iniciando cámara...")
+        self.video_label.setAlignment(Qt.AlignCenter)
+        self.video_label.setFixedSize(640, 480)
 
-        # Right Panel (Controls + Legend)
-        right_panel = tk.Frame(main_frame)
-        right_panel.pack(side='right', fill='y', padx=10, pady=10)
+        self.control_panel = ControlPanel(self)
+        self.legend_panel = LegendPanel()
 
-        self.control_panel = ControlPanel(right_panel, app_controller=self)
-        self.control_panel.pack(side='top', fill='x')
+        # --- Layouts ---
+        main_layout = QHBoxLayout(self)
+        right_panel = QVBoxLayout()
+        right_panel.addWidget(self.control_panel)
+        right_panel.addWidget(self.legend_panel)
 
-        self.legend_panel = LegendPanel(right_panel)
-        self.legend_panel.pack(side='bottom', fill='both', expand=True)
+        main_layout.addWidget(self.video_label, 3)
+        main_layout.addLayout(right_panel, 1)
+        self.setLayout(main_layout)
 
-        self.window.protocol("WM_DELETE_WINDOW", self.on_closing)
-        self.update()
-        self.window.mainloop()
+        # --- Temporizador de actualización ---
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_frame)
+        self.timer.start(30)
+
+    # -------------------
+    #  Métodos principales
+    # -------------------
+
+    def load_stylesheet(self, path: str):
+        """Carga un archivo QSS para aplicar estilo global a la interfaz."""
+        file = QFile(path)
+        if file.open(QFile.ReadOnly | QFile.Text):
+            stream = QTextStream(file)
+            self.setStyleSheet(stream.readAll())
+            file.close()
+        else:
+            print(f"[ADVERTENCIA] No se pudo cargar la hoja de estilos: {path}")
 
     def toggle_detection(self):
+        """Activa o desactiva la detección."""
         self.detection_active = not self.detection_active
-        state_text = "Detener Detección" if self.detection_active else "Iniciar Detección"
-        self.control_panel.btn_toggle_detection.config(text=state_text)
+        self.control_panel.update_detection_button(self.detection_active)
 
-    def update(self):
+    def update_frame(self):
+        """Actualiza el frame de la cámara."""
         ret, frame = self.cap.read()
-        if ret:
-            frame = cv2.flip(frame, 1)
-            if self.detection_active:
-                frame, results = self.hand_tracker.process_frame(frame)
-                if results.multi_hand_landmarks:
-                    for hand_landmarks in results.multi_hand_landmarks:
-                        gesture = self.gesture_mapper.detect_gesture(hand_landmarks)
+        if not ret:
+            self.video_label.setText("Error al leer la cámara.")
+            return
 
-                        # Conectar gestos a acciones
-                        if gesture == "POINTING":
-                            self.cursor_control.move_cursor(hand_landmarks)
-                            draw_pointer(frame, hand_landmarks)
-                        elif gesture == "CLICK":
-                            perform_click()
-                            # Podríamos añadir un feedback visual para el clic aquí
-                        elif gesture:
-                            # Imprime otros gestos para futura implementación
-                            print(f"Gesto reconocido: {gesture}")
+        frame = cv2.flip(frame, 1)
 
-            self.photo = ImageTk.PhotoImage(image=Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)))
-            self.canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
-        
-        self.window.after(10, self.update)
+        if self.detection_active:
+            # Aquí se integraría el HandTracker y el GestureMapper
+            pass
+
+        # Mostrar el frame
+        rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        h, w, ch = rgb.shape
+        bytes_per_line = ch * w
+        q_img = QImage(rgb.data, w, h, bytes_per_line, QImage.Format_RGB888)
+        self.video_label.setPixmap(QPixmap.fromImage(q_img))
 
     def on_closing(self):
+        """Cierra la aplicación correctamente."""
         self.cap.release()
-        self.window.destroy()
-
-if __name__ == "__main__":
-    GestureApp(tk.Tk(), "Control de Gestos Holográficos")
+        self.close()

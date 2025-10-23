@@ -1,5 +1,6 @@
 import cv2
 
+
 def inicializar_camara(width=640, height=480):
     """Inicializa la cámara con la resolución deseada."""
     cap = cv2.VideoCapture(0)

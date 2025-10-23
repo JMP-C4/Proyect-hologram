@@ -1,10 +1,14 @@
-import tkinter as tk
-from .gesture_app import GestureApp
+import sys
+from PySide6.QtWidgets import QApplication
+from src.gestos.gesture_app import GestureApp
+
 
 def main():
-    """Punto de entrada principal para la aplicación."""
-    root = tk.Tk()
-    app = GestureApp(root, "Control de Gestos Holográficos")
+    app = QApplication(sys.argv)
+    window = GestureApp()
+    window.show()
+    sys.exit(app.exec())
+
 
 if __name__ == "__main__":
     main()

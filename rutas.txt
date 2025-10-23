@@ -1,0 +1,70 @@
+Tree_View
+
+holograma_0.3/
+    2 │── .gitignore
+    3 │── README.md
+    4 │── requirements.txt
+    5 │── rutas.txt
+    6 │── rute.txt
+    7 │
+    8 ├── src/
+    9 │   ├── main.py
+   10 │   │
+   11 │   ├── holograma/
+   12 │   │   ├── __init__.py
+   13 │   │   ├── floors.py
+   14 │   │   ├── holograma.py
+   15 │   │   ├── preview.py
+   16 │   │   ├── renderer.py
+   17 │   │   ├── rotations.py
+   18 │   │   └── shaders/
+   19 │   │
+   20 │   ├── gestos/
+   21 │   │   ├── detector.py
+   22 │   │   ├── event_system.py
+   23 │   │   ├── gesture_app.py
+   24 │   │   ├── main.py
+   25 │   │   ├── refactor_summary.txt
+   26 │   │   ├── components/
+   27 │   │   │   ├── click_control.py
+   28 │   │   │   ├── drag_control.py
+   29 │   │   │   ├── gesture_mapper.py
+   30 │   │   │   ├── hand_tracking.py
+   31 │   │   │   ├── scroll_control.py
+   32 │   │   │   └── ui_components.py
+   33 │   │   ├── css/
+   34 │   │   │   ├── __init__.py
+   35 │   │   │   └── styles.py
+   36 │   │   └── utils/
+   37 │   │       ├── camera_utils.py
+   38 │   │       ├── cursor_control.py
+   39 │   │       ├── cursor_utils.py
+   40 │   │       ├── display_utils.py
+   41 │   │       ├── display.py
+   42 │   │       └── hand_tracking.py
+   43 │   │
+   44 │   ├── network/
+   45 │   │   ├── __init__.py
+   46 │   │   ├── client.py
+   47 │   │   ├── event_bus.py
+   48 │   │   └── server.py
+   49 │   │
+   50 │   ├── assets/
+   51 │   │   ├── models/
+   52 │   │   │   └── tu_modelo.glb
+   53 │   │   ├── sounds/
+   54 │   │   └── textures/
+   55 │   │
+   56 │   ├── ui/
+   57 │   │   └── main_window.py
+   58 │   │
+   59 │   └── utils/
+   60 │       ├── __init__.py
+   61 │       ├── config.py
+   62 │       └── logger.py
+   63 │
+   64 └── tests/
+   65     ├── test_gestos.py
+   66     ├── test_gesture_mapper.py
+   67     ├── test_network.py
+   68     └── test_renderer.py

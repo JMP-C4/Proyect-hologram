@@ -1,0 +1,31 @@
+# 🚫 Ignorar entorno virtual
+.venv/
+venv/
+ENV/
+env/
+
+# 🐍 Archivos de Python compilados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 🧰 Configuración y cachés
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+
+# 🧪 Entornos de prueba
+.coverage
+.tox/
+.nox/
+.pytest_cache/
+*.coverage
+*.pytest_cache
+
+# 📦 Dependencias
+pip-wheel-metadata/
+bu

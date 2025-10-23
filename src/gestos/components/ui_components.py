@@ -1,39 +1,54 @@
-import tkinter as tk
+from PySide6.QtWidgets import QWidget, QPushButton, QLabel, QVBoxLayout, QHBoxLayout, QFrame
+from PySide6.QtCore import Qt
 
-class ControlPanel(tk.Frame):
-    def __init__(self, parent, app_controller, *args, **kwargs):
-        super().__init__(parent, *args, **kwargs)
+
+class ControlPanel(QWidget):
+    def __init__(self, app_controller):
+        super().__init__()
         self.app_controller = app_controller
-        self.configure(padx=10, pady=10)
 
-        self.btn_toggle_detection = tk.Button(self, text="Iniciar Detección", command=self.app_controller.toggle_detection)
-        self.btn_toggle_detection.pack(fill='x', pady=5)
+        layout = QVBoxLayout()
+        layout.setSpacing(10)
 
-        self.btn_calibrate = tk.Button(self, text="Calibrar")
-        self.btn_calibrate.pack(fill='x', pady=5)
+        self.btn_toggle_detection = QPushButton("Iniciar Detección")
+        self.btn_toggle_detection.clicked.connect(self.app_controller.toggle_detection)
+        layout.addWidget(self.btn_toggle_detection)
 
-        self.btn_action1 = tk.Button(self, text="Acción 1")
-        self.btn_action1.pack(fill='x', pady=5)
+        self.btn_calibrate = QPushButton("Calibrar")
+        layout.addWidget(self.btn_calibrate)
 
-        self.btn_action2 = tk.Button(self, text="Acción 2")
-        self.btn_action2.pack(fill='x', pady=5)
+        self.btn_action1 = QPushButton("Acción 1")
+        layout.addWidget(self.btn_action1)
 
-        self.btn_additional1 = tk.Button(self, text="Adicional 1")
-        self.btn_additional1.pack(fill='x', pady=5)
+        self.btn_action2 = QPushButton("Acción 2")
+        layout.addWidget(self.btn_action2)
 
-        self.btn_additional2 = tk.Button(self, text="Adicional 2")
-        self.btn_additional2.pack(fill='x', pady=5)
+        self.btn_additional1 = QPushButton("Adicional 1")
+        layout.addWidget(self.btn_additional1)
 
-        self.btn_exit = tk.Button(self, text="Salir", command=self.app_controller.on_closing)
-        self.btn_exit.pack(fill='x', pady=10)
+        self.btn_additional2 = QPushButton("Adicional 2")
+        layout.addWidget(self.btn_additional2)
 
-class LegendPanel(tk.Frame):
-    def __init__(self, parent, *args, **kwargs):
-        super().__init__(parent, *args, **kwargs)
-        self.configure(padx=10, pady=10)
+        layout.addStretch()
+
+        self.btn_exit = QPushButton("Salir")
+        self.btn_exit.clicked.connect(self.app_controller.on_closing)
+        layout.addWidget(self.btn_exit)
+
+        self.setLayout(layout)
+
+    def update_detection_button(self, is_active: bool):
+        self.btn_toggle_detection.setText("Detener Detección" if is_active else "Iniciar Detección")
+
+
+class LegendPanel(QFrame):
+    def __init__(self):
+        super().__init__()
+        self.setFrameShape(QFrame.StyledPanel)
+        layout = QVBoxLayout()
 
         legend_text = (
-            "--- Leyenda de Gestos ---" 
+            "--- Leyenda de Gestos ---\n"
             "- Gesto 1: [Acción]\n"
             "- Gesto 2: [Acción]\n"
             "- Gesto 3: [Acción]\n"
@@ -41,5 +56,8 @@ class LegendPanel(tk.Frame):
             "- Gesto 5: [Acción]\n"
         )
 
-        self.lbl_legend = tk.Label(self, text=legend_text, justify='left', anchor='w')
-        self.lbl_legend.pack(fill='both', expand=True)
+        self.lbl_legend = QLabel(legend_text)
+        self.lbl_legend.setAlignment(Qt.AlignLeft | Qt.AlignTop)
+        layout.addWidget(self.lbl_legend)
+
+        self.setLayout(layout)
