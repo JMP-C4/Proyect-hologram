@@ -1,31 +1,78 @@
-# 🚫 Ignorar entorno virtual
-.venv/
+# --- Archivos y carpetas de entorno ---
+.env
+.env.*
+*.env
 venv/
-ENV/
+.venv/
 env/
-
-# 🐍 Archivos de Python compilados
+ENV/
 __pycache__/
 *.py[cod]
 *$py.class
 
-# 🧰 Configuración y cachés
+# --- Archivos del sistema ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Archivos de logs ---
 *.log
-*.pot
-*.pyc
-*.pyo
-*.pyd
-*.sqlite3
+logs/
+log/
+
+# --- Configuración del IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Archivos temporales ---
+*.tmp
+*.bak
+*.old
+*.orig
+
+# --- Archivos de build y cache ---
+build/
+dist/
+*.egg-info/
+.eggs/
+.cache/
+.mypy_cache/
+pytest_cache/
+__pypackages__/
+
+# --- Archivos de cámara o pruebas ---
+*.mp4
+*.avi
+*.jpg
+*.jpeg
+*.png
+*.bmp
+
+# --- Archivos de configuración específicos ---
+config.json
+settings.json
+secrets.json
+
+# --- Archivos de bases de datos locales ---
 *.db
+*.sqlite
+*.sqlite3
 
-# 🧪 Entornos de prueba
-.coverage
-.tox/
-.nox/
-.pytest_cache/
-*.coverage
-*.pytest_cache
+# --- Archivos de exportación o datos de ejemplo ---
+exports/
+datasets/
+data/
+output/
+results/
 
-# 📦 Dependencias
-pip-wheel-metadata/
-bu
+# --- Otros posibles ---
+# Ignorar binarios o ejecutables
+*.exe
+*.dll
+*.so
+*.dylib
+
+# --- Archivos de compilación de PyInstaller ---
+*.spec
