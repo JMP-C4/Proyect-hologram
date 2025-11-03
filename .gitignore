@@ -76,3 +76,8 @@ results/
 
 # --- Archivos de compilación de PyInstaller ---
 *.spec
+
+
+echo "src/assets/textures/*.glb" >> .gitignore
+echo "src/assets/textures/*.zip" >> .gitignore
+echo "src/assets/textures/*.rar" >> .gitignore
